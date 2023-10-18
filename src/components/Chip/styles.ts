@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   chipText: {
     color: Colors.text,
-    fontSize: 16,
+    fontSize: Fonts.medium,
   },
   selectedChipText: {
     color: Colors.white,
