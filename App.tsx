@@ -5,10 +5,14 @@ import { ScanPage } from './src/pages/Scan';
 import { InboxPage } from './src/pages/Inbox';
 import { Colors } from './src/constants';
 import { AntDesign, Ionicons, Foundation } from '@expo/vector-icons';
+import { Provider } from 'react-redux';
+import { store, useAppSelector } from './src/store';
+import { selectNumUnreadMsgs } from './src/store/slices/inboxSlice';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+const Navigation = () => {
+  const numUnreadMsgs = useAppSelector(selectNumUnreadMsgs);
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -17,8 +21,7 @@ export default function App() {
             headerShown: false,
             tabBarActiveTintColor: Colors.primary['500'],
             tabBarInactiveTintColor: Colors.black,
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
+            tabBarIcon: ({ color, size }) => {
               switch (route.name) {
                 case 'HOME':
                   return <Foundation name="home" size={size} color={color} />;
@@ -33,8 +36,19 @@ export default function App() {
       >
         <Tab.Screen name="HOME" component={HomePage} />
         <Tab.Screen name="SCAN" component={ScanPage} />
-        <Tab.Screen name="INBOX" component={InboxPage} options={{ tabBarBadge: 3 }} />
+        <Tab.Screen
+          name="INBOX"
+          component={InboxPage}
+          options={numUnreadMsgs > 0 ? { tabBarBadge: numUnreadMsgs } : {}}
+        />
       </Tab.Navigator>
     </NavigationContainer>
+  );
+};
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
   );
 }
