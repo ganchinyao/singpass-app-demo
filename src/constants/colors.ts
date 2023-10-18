@@ -18,4 +18,9 @@ export default {
     '500': '#4CAF50',
     '700': '#388E3C',
   },
+  grey: {
+    '300': '#E0E0E0',
+  },
+  primaryRed: '#F4333D',
+  text: '#333',
 };
