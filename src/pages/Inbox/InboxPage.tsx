@@ -4,9 +4,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SearchBar } from '../../components/SearchBar';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchInboxItems } from '../../api/inbox';
-import { Colors, INBOX_ITEMS_PER_PAGE } from '../../constants';
+import { Colors, INBOX_ITEMS_PER_PAGE, INBOX_ITEM_HEIGHT } from '../../constants';
 import { InboxMessages } from '../../../db/db';
 import colors from '../../constants/colors';
+import { InboxItem } from '../../feature/inbox/InboxItem';
 
 const InboxPage = () => {
   const [data, setData] = useState<InboxMessages[]>([]);
@@ -49,6 +50,9 @@ const InboxPage = () => {
           <MaterialCommunityIcons name="dots-horizontal" size={24} color={Colors.black} />
         </View>
         <Text style={styles.inboxHeaderText}>Inbox</Text>
+        <Text style={styles.inboxDescText}>
+          These are copies of government messages that were sent to your mobile number.
+        </Text>
         <View style={styles.searchBarContainer}>
           <SearchBar onSearch={() => {}} />
         </View>
@@ -58,16 +62,11 @@ const InboxPage = () => {
 
   const renderList = () => {
     return (
-      <View style={styles.container}>
+      <View style={styles.listContainer}>
         <FlatList
           data={data}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.listItem} key={item.id}>
-              <Text>{item.sender}</Text>
-              <Text>{item.body}</Text>
-            </View>
-          )}
+          renderItem={({ item }) => <InboxItem item={item} />}
           refreshControl={
             <RefreshControl
               colors={[Colors.primaryRed, Colors.primaryRed]}
@@ -76,6 +75,7 @@ const InboxPage = () => {
               onRefresh={handleRefresh}
             />
           }
+          getItemLayout={(data, index) => ({ length: INBOX_ITEM_HEIGHT, offset: INBOX_ITEM_HEIGHT * index, index })}
           onEndReached={() => setOffset((prevOffset) => prevOffset + INBOX_ITEMS_PER_PAGE)}
           onEndReachedThreshold={0.5}
           ListFooterComponent={loading ? <ActivityIndicator size="large" color={colors.primaryRed} /> : null}
@@ -83,6 +83,7 @@ const InboxPage = () => {
       </View>
     );
   };
+
   return (
     <SafeAreaView style={styles.container}>
       {renderHeader()}

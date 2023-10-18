@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 28,
     marginTop: 8,
   },
   ellipsesContainer: {
@@ -17,12 +17,16 @@ export const styles = StyleSheet.create({
     ...Fonts.boldText,
     fontSize: Fonts.xxlarge,
   },
+  inboxDescText: {
+    marginTop: 6,
+    color: Colors.text,
+  },
   searchBarContainer: {
     marginTop: 16,
   },
-  listItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+  listContainer: {
+    marginTop: 24,
+    borderTopWidth: 0.5,
+    borderTopColor: Colors.border,
   },
 });
