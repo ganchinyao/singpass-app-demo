@@ -3,13 +3,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomePage } from './src/pages/Home';
 import { ScanPage } from './src/pages/Scan';
 import { InboxPage } from './src/pages/Inbox';
-import { Colors } from './src/constants';
+import { Colors, ROUTES } from './src/constants';
 import { AntDesign, Ionicons, Foundation } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import { store, useAppSelector } from './src/store';
 import { selectNumUnreadMsgs } from './src/store/slices/inboxSlice';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { InboxDetailsPage } from './src/pages/InboxDetails';
 
 const Tab = createBottomTabNavigator();
+const InboxStack = createNativeStackNavigator();
+
+const InboxStackScreen = () => {
+  return (
+    <InboxStack.Navigator screenOptions={{ headerShown: false }}>
+      <InboxStack.Screen name={ROUTES.INBOX} component={InboxPage} />
+      <InboxStack.Screen name={ROUTES.INBOX_DETAILS} component={InboxDetailsPage} />
+    </InboxStack.Navigator>
+  );
+};
 
 const Navigation = () => {
   const numUnreadMsgs = useAppSelector(selectNumUnreadMsgs);
@@ -23,22 +35,22 @@ const Navigation = () => {
             tabBarInactiveTintColor: Colors.black,
             tabBarIcon: ({ color, size }) => {
               switch (route.name) {
-                case 'HOME':
+                case ROUTES.HOME:
                   return <Foundation name="home" size={size} color={color} />;
-                case 'SCAN':
+                case ROUTES.SCAN:
                   return <Ionicons name="scan-circle" size={size} color={color} />;
-                case 'INBOX':
+                case ROUTES.INBOX:
                   return <AntDesign name="mail" size={size} color={color} />;
               }
             },
           };
         }}
       >
-        <Tab.Screen name="HOME" component={HomePage} />
-        <Tab.Screen name="SCAN" component={ScanPage} />
+        <Tab.Screen name={ROUTES.HOME} component={HomePage} />
+        <Tab.Screen name={ROUTES.SCAN} component={ScanPage} />
         <Tab.Screen
-          name="INBOX"
-          component={InboxPage}
+          name={ROUTES.INBOX}
+          component={InboxStackScreen}
           options={numUnreadMsgs > 0 ? { tabBarBadge: numUnreadMsgs } : {}}
         />
       </Tab.Navigator>

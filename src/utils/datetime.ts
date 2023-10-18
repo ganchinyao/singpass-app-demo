@@ -64,3 +64,30 @@ export const convertUnixTimestampToRelativeTime = (timestamp: number): string =>
   const formattedYear = messageDate.getFullYear().toString().slice(-2);
   return `${formattedDay}/${formattedMonth}/${formattedYear}`;
 };
+
+/**
+ * Format a 10 digits unit time stamp to the following format: `November 14, 2023 • 9:54 PM`
+ */
+export const formatUnixTimestampToFullTime = (timestamp: number, separator: string = ' • '): string => {
+  const messageDate = new Date(timestamp * 1000);
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  // Format date in "Month Day, Year • HH:mm AM/PM" format
+  const formattedDate = `${months[messageDate.getMonth()]} ${messageDate.getDate()}, ${messageDate.getFullYear()}`;
+  const formattedTime = messageDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+  return `${formattedDate}${separator}${formattedTime}`;
+};
