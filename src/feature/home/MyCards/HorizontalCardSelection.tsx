@@ -19,6 +19,7 @@ export const HorizontalCardSelection = ({ selectedCard, setSelectedCard }: Horiz
       {Object.values(CARDS).map((card) => {
         return (
           <Chip
+            key={card}
             label={card}
             isSelected={selectedCard === card}
             onPress={() => {

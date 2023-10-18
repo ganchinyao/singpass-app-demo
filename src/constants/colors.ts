@@ -32,4 +32,5 @@ export default {
   },
   primaryRed: '#F4333D',
   text: '#333',
+  border: '#ccc',
 };

@@ -20,4 +20,9 @@ export const styles = StyleSheet.create({
   searchBarContainer: {
     marginTop: 16,
   },
+  listItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
 });
