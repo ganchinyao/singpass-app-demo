@@ -6,12 +6,12 @@ export default {
   primary: {
     '100': '#F79B9F',
     '300': '#FC5157',
-    '500': '#F4333D',
+    '500': '#C80E14',
     '700': '#D62215',
   },
   background: '#f4f4f4',
   red: {
-    '500': '#F44336',
+    '500': '#C80E14',
     '700': '#D32F2F',
   },
   grey: {
@@ -38,7 +38,7 @@ export default {
     '800': '#1E3A3E',
     '900': '#193234',
   },
-  primaryRed: '#F4333D',
+  primaryRed: '#C80E14',
   text: '#333',
   border: '#ccc',
 };

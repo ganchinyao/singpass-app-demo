@@ -19,7 +19,7 @@ const Navigation = () => {
         screenOptions={({ route }) => {
           return {
             headerShown: false,
-            tabBarActiveTintColor: Colors.primary['500'],
+            tabBarActiveTintColor: Colors.primaryRed,
             tabBarInactiveTintColor: Colors.black,
             tabBarIcon: ({ color, size }) => {
               switch (route.name) {

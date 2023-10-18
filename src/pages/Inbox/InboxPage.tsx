@@ -1,11 +1,20 @@
-import { ActivityIndicator, FlatList, RefreshControl, SafeAreaView, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { styles } from './styles';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { SearchBar } from '../../components/SearchBar';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchInboxItems } from '../../api/inbox';
 import { Colors, INBOX_ITEMS_PER_PAGE, INBOX_ITEM_HEIGHT } from '../../constants';
-import { InboxMessages } from '../../../db/db';
+import { InboxMessages, db } from '../../../db/db';
 import colors from '../../constants/colors';
 import { InboxItem } from '../../feature/inbox/InboxItem';
 
@@ -14,6 +23,9 @@ const InboxPage = () => {
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const flatListRef = useRef(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  console.log('### data length', data.length, offset);
 
   const mockFetchData = useCallback(
     async (isInitialFetch?: boolean) => {
@@ -38,6 +50,29 @@ const InboxPage = () => {
     await mockFetchData(true);
     setRefreshing(false);
   }, []);
+
+  const fetchMoreData = () => {
+    const listEnded = data.length >= db.inboxMessages.length;
+    if (loading || listEnded) {
+      return;
+    }
+    setOffset((prevOffset) => prevOffset + INBOX_ITEMS_PER_PAGE);
+  };
+
+  const handleScroll = (event) => {
+    const yOffset = event.nativeEvent.contentOffset.y;
+    if (yOffset > 400) {
+      setShowBackToTop(true);
+    } else {
+      setShowBackToTop(false);
+    }
+  };
+
+  const handleBackToTop = () => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+    }
+  };
 
   useEffect(() => {
     mockFetchData(offset === 0);
@@ -64,6 +99,7 @@ const InboxPage = () => {
     return (
       <View style={styles.listContainer}>
         <FlatList
+          ref={flatListRef}
           data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <InboxItem item={item} />}
@@ -76,10 +112,19 @@ const InboxPage = () => {
             />
           }
           getItemLayout={(data, index) => ({ length: INBOX_ITEM_HEIGHT, offset: INBOX_ITEM_HEIGHT * index, index })}
-          onEndReached={() => setOffset((prevOffset) => prevOffset + INBOX_ITEMS_PER_PAGE)}
-          onEndReachedThreshold={0.5}
-          ListFooterComponent={loading ? <ActivityIndicator size="large" color={colors.primaryRed} /> : null}
+          onEndReached={fetchMoreData}
+          onEndReachedThreshold={0.7}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          ListFooterComponent={
+            loading ? <ActivityIndicator style={{ marginTop: 4 }} size="large" color={colors.primaryRed} /> : null
+          }
         />
+        {showBackToTop && (
+          <TouchableOpacity style={styles.backToTopButton} onPress={handleBackToTop} activeOpacity={0.9}>
+            <Feather name="arrow-up" size={24} color={Colors.primaryRed} />
+          </TouchableOpacity>
+        )}
       </View>
     );
   };

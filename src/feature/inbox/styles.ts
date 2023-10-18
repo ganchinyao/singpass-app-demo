@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5, // Half of width/height to make it a circle
-    backgroundColor: Colors.green['500'],
+    backgroundColor: Colors.primaryRed,
     marginRight: 6,
     marginLeft: -16,
   },

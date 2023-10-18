@@ -25,8 +25,25 @@ export const styles = StyleSheet.create({
     marginTop: 16,
   },
   listContainer: {
+    flex: 1,
     marginTop: 24,
     borderTopWidth: 0.5,
     borderTopColor: Colors.border,
+  },
+  backToTopButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.white,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    elevation: 1,
   },
 });
