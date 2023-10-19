@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import { PhoneNumberVerificationPage } from './src/pages/PhoneNumberVerification';
 import { NRICBarcodePage } from './src/pages/NRICBarcode';
 import { MyProfilePage } from './src/pages/MyProfile';
+import { AllShortcutsPage } from './src/pages/AllShortcuts';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -34,6 +35,7 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name={ROUTES.SETTINGS} component={SettingsPage} />
       <HomeStack.Screen name={ROUTES.NRIC_BARCODE} component={NRICBarcodePage} />
       <HomeStack.Screen name={ROUTES.MY_PROFILE} component={MyProfilePage} />
+      <HomeStack.Screen name={ROUTES.ALL_SHORTCUTS} component={AllShortcutsPage} />
     </HomeStack.Navigator>
   );
 };

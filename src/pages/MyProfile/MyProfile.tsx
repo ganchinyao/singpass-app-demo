@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActionBarContainer } from '../../components/ActionBarContainer';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from './styles';
 import { MyProfileGrid } from '../../feature/home/MyProfile/MyProfileGrid';
 

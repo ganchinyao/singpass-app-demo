@@ -1,8 +1,7 @@
-import { ScrollView, View } from 'react-native';
+import { Linking, ScrollView, View } from 'react-native';
 import { styles } from './styles';
 import { RoundedIconWithText } from '../../../components/RoundedIconWithText';
-import Toast from 'react-native-toast-message';
-import { CAROUSEL_SHORTCUTS, IconsMap } from './constants';
+import { CAROUSEL_SHORTCUTS, IconsMap, ShortcutsLinkMap } from './constants';
 
 export const ShortcutsCarousel = () => {
   return (
@@ -20,10 +19,7 @@ export const ShortcutsCarousel = () => {
               icon={IconsMap[item]}
               customStyle={styles.iconContainer}
               onPress={() => {
-                Toast.show({
-                  type: 'success',
-                  text1: `${item} :)`,
-                });
+                Linking.openURL(ShortcutsLinkMap[item]);
               }}
             />
           </View>

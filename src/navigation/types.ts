@@ -11,4 +11,5 @@ export type RootStackParamList = {
   [ROUTES.PHONE_NUMBER_VERIFICATION]: undefined;
   [ROUTES.NRIC_BARCODE]: undefined;
   [ROUTES.MY_PROFILE]: undefined;
+  [ROUTES.ALL_SHORTCUTS]: undefined;
 };
