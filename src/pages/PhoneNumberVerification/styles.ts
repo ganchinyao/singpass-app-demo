@@ -44,7 +44,6 @@ export const styles = StyleSheet.create({
   },
   phoneNumberInput: {
     marginTop: 20,
-    marginBottom: 26,
     fontSize: Fonts.medium,
     backgroundColor: Colors.grey['100'],
     paddingVertical: 10,
@@ -77,9 +76,14 @@ export const styles = StyleSheet.create({
     marginRight: 8,
   },
   successfulOtpText: {
-    marginTop: 16,
+    marginBottom: 16,
     textAlign: 'center',
     color: Colors.text,
     fontSize: Fonts.medium,
+  },
+  invalidPhoneNumber: {
+    color: Colors.primaryRed,
+    fontSize: Fonts.small,
+    marginTop: 4,
   },
 });

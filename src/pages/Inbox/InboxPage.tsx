@@ -11,6 +11,7 @@ import { InboxItem } from '../../feature/inbox/InboxItem';
 import { useAppSelector } from '../../store';
 import { selectDeletedItemIds } from '../../store/slices/inboxSlice';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 const InboxPage = () => {
   const [data, setData] = useState<InboxMessages[]>([]);
@@ -91,7 +92,16 @@ const InboxPage = () => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.ellipsesContainer}>
-          <MaterialCommunityIcons name="dots-horizontal" size={24} color={Colors.black} />
+          <TouchableOpacity
+            onPress={() => {
+              Toast.show({
+                type: 'success',
+                text1: `Nothing here :)`,
+              });
+            }}
+          >
+            <MaterialCommunityIcons name="dots-horizontal" size={24} color={Colors.black} />
+          </TouchableOpacity>
         </View>
         <Text style={styles.inboxHeaderText}>Inbox</Text>
         <Text style={styles.inboxDescText}>
