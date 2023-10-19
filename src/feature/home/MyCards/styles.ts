@@ -39,4 +39,15 @@ export const styles = StyleSheet.create({
     transform: [{ rotate: '-25deg' }],
     fontSize: Fonts.medium,
   },
+  showBarcodeContainer: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  showBarcodeTitle: {
+    ...Fonts.boldText,
+    color: Colors.primaryRed,
+    marginLeft: 8,
+  },
 });

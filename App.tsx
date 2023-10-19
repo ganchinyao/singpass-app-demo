@@ -19,6 +19,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QRConfirmationPage } from './src/pages/QRConfirmation';
 import Toast from 'react-native-toast-message';
 import { PhoneNumberVerificationPage } from './src/pages/PhoneNumberVerification';
+import { NRICBarcodePage } from './src/pages/NRICBarcode';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -28,8 +29,9 @@ const InboxStack = createNativeStackNavigator();
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name={`${ROUTES.SCAN}_STACK`} component={HomePage} />
+      <HomeStack.Screen name={`${ROUTES.HOME}_STACK`} component={HomePage} />
       <HomeStack.Screen name={ROUTES.SETTINGS} component={SettingsPage} />
+      <HomeStack.Screen name={ROUTES.NRIC_BARCODE} component={NRICBarcodePage} />
     </HomeStack.Navigator>
   );
 };

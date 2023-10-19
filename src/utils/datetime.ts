@@ -1,3 +1,20 @@
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /**
  * Creates an array of `numTimestamps` random unix timestamps, sorted in descending order.
  * @param initialTimestamp The timestamp to use as the starting point for the random timestamps.
@@ -66,27 +83,23 @@ export const convertUnixTimestampToRelativeTime = (timestamp: number): string =>
 };
 
 /**
+ * Format a 10 digits unit time stamp to the following format: `18 Oct 2023`
+ */
+export const formatUnixTimestampToDate = (timestamp: number, separator: string = ' • '): string => {
+  const messageDate = new Date(timestamp * 1000);
+  const formattedDay = messageDate.getDate().toString().padStart(2, '0');
+  const formattedYear = messageDate.getFullYear().toString().slice(-2);
+  return `${formattedDay} ${MONTHS_SHORT[messageDate.getMonth()]} ${formattedYear}`;
+};
+
+/**
  * Format a 10 digits unit time stamp to the following format: `November 14, 2023 • 9:54 PM`
  */
 export const formatUnixTimestampToFullTime = (timestamp: number, separator: string = ' • '): string => {
   const messageDate = new Date(timestamp * 1000);
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
 
   // Format date in "Month Day, Year • HH:mm AM/PM" format
-  const formattedDate = `${months[messageDate.getMonth()]} ${messageDate.getDate()}, ${messageDate.getFullYear()}`;
+  const formattedDate = `${MONTHS[messageDate.getMonth()]} ${messageDate.getDate()}, ${messageDate.getFullYear()}`;
   const formattedTime = messageDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
   return `${formattedDate}${separator}${formattedTime}`;

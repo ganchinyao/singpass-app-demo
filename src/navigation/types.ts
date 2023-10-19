@@ -9,4 +9,5 @@ export type RootStackParamList = {
   [ROUTES.SETTINGS]: undefined;
   [ROUTES.QR_CONFIRMATION]: { qrType: QR_TYPES };
   [ROUTES.PHONE_NUMBER_VERIFICATION]: undefined;
+  [ROUTES.NRIC_BARCODE]: undefined;
 };
