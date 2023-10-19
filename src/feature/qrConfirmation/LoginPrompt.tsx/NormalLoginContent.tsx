@@ -7,6 +7,7 @@ import { formatUnixTimestampToFullTime } from '../../../utils/datetime';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { ROUTES } from '../../../constants';
+import { authenticate } from '../../../utils/auth';
 
 export const NormalLoginContent = () => {
   const navigation = useNavigation();
@@ -30,13 +31,16 @@ export const NormalLoginContent = () => {
         <ActionButton
           title="Approve"
           gradientColor={['#4CAF50', '#388E3C']}
-          onPress={() => {
-            Toast.show({
-              type: 'success',
-              text1: 'Mock Approval - Success',
-            });
-            navigation.dispatch(StackActions.pop());
-            navigation.navigate(ROUTES.HOME);
+          onPress={async () => {
+            const authenticated = await authenticate();
+            if (authenticated) {
+              Toast.show({
+                type: 'success',
+                text1: 'Mock Approval - Success',
+              });
+              navigation.dispatch(StackActions.pop());
+              navigation.navigate(ROUTES.HOME);
+            }
           }}
           icon={<AntDesign name={'check'} size={24} color="white" />}
         />
