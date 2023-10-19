@@ -16,17 +16,29 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { selectReadItemIds, setDeletedItemIds, setReadItemsId } from './src/store/slices/inboxSlice';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QRConfirmationPage } from './src/pages/QRConfirmation';
+import Toast from 'react-native-toast-message';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
+const ScanStack = createNativeStackNavigator();
 const InboxStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name={`${ROUTES.HOME}_STACK`} component={HomePage} />
+      <HomeStack.Screen name={`${ROUTES.SCAN}_STACK`} component={HomePage} />
       <HomeStack.Screen name={ROUTES.SETTINGS} component={SettingsPage} />
     </HomeStack.Navigator>
+  );
+};
+
+const ScanStackScreen = () => {
+  return (
+    <ScanStack.Navigator screenOptions={{ headerShown: false }}>
+      <ScanStack.Screen name={`${ROUTES.SCAN}_STACK`} component={ScanPage} />
+      <ScanStack.Screen name={ROUTES.QR_CONFIRMATION} component={QRConfirmationPage} />
+    </ScanStack.Navigator>
   );
 };
 
@@ -79,7 +91,7 @@ const Navigation = () => {
         }}
       >
         <Tab.Screen name={ROUTES.HOME} component={HomeStackScreen} />
-        <Tab.Screen name={ROUTES.SCAN} component={ScanPage} />
+        <Tab.Screen name={ROUTES.SCAN} component={ScanStackScreen} />
         <Tab.Screen
           name={ROUTES.INBOX}
           component={InboxStackScreen}
@@ -124,6 +136,7 @@ export default function App() {
     <SafeAreaProvider>
       <Provider store={store}>
         <Navigation />
+        <Toast />
       </Provider>
     </SafeAreaProvider>
   );

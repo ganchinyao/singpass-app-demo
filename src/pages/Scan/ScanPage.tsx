@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../../constants';
 
 const TARGET_SQUARE_SIZE = 240;
 const { width } = Dimensions.get('window');
@@ -12,6 +14,23 @@ const overlayHorizontalWidth = (width - TARGET_SQUARE_SIZE) / 2;
 const ScanPage = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const navigation = useNavigation();
+  const [isCameraActive, setIsCameraActive] = useState(true);
+
+  useEffect(() => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      setIsCameraActive(true);
+    });
+
+    const unsubscribeBlur = navigation.addListener('blur', () => {
+      setIsCameraActive(false);
+    });
+
+    return () => {
+      unsubscribeFocus();
+      unsubscribeBlur();
+    };
+  }, [navigation]);
 
   useEffect(() => {
     (async () => {
@@ -22,7 +41,8 @@ const ScanPage = () => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`QR code type: ${type}, data: ${data}`);
+    navigation.navigate(ROUTES.QR_CONFIRMATION, { qrType: data });
+    setScanned(false);
   };
 
   if (hasPermission === null) {
@@ -38,11 +58,13 @@ const ScanPage = () => {
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+      {isCameraActive && (
+        <BarCodeScanner
+          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
       <View style={styles.overlay} />
       <View
         style={{
