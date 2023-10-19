@@ -9,7 +9,7 @@ import { ActionBarContainer } from '../../components/ActionBarContainer';
 
 const NRICBarcodePage = () => {
   return (
-    <ActionBarContainer hideBorder={true}>
+    <ActionBarContainer hideBorder={true} title="NRIC">
       <View style={styles.barcodeContainer}>
         <Image source={DemoBarCode} style={styles.barcode} />
       </View>

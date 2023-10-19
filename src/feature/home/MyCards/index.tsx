@@ -8,10 +8,16 @@ import { CardCarousel } from './CardCarousel';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../../constants';
+import Collapsible from 'react-native-collapsible';
 
 export const MyCards = () => {
   const [selectedCard, setSelectedCard] = useState(CARDS.NRIC);
+  const [isCollapsedCards, setIsCollapsedCards] = useState(false);
   const navigation = useNavigation();
+
+  const toggleCollapseCards = () => {
+    setIsCollapsedCards((isCollapse) => !isCollapse);
+  };
 
   const renderShowBarcode = () => {
     return (
@@ -29,20 +35,22 @@ export const MyCards = () => {
   };
   return (
     <View style={styles.container}>
-      <MyCardsHeader />
-      <HorizontalCardSelection
-        selectedCard={selectedCard}
-        setSelectedCard={(card) => {
-          setSelectedCard(card);
-        }}
-      />
-      <CardCarousel
-        selectedCard={selectedCard}
-        setSelectedCard={(card) => {
-          setSelectedCard(card);
-        }}
-      />
-      {renderShowBarcode()}
+      <MyCardsHeader isCollapsedCards={isCollapsedCards} toggleCollapseCards={toggleCollapseCards} />
+      <Collapsible collapsed={isCollapsedCards}>
+        <HorizontalCardSelection
+          selectedCard={selectedCard}
+          setSelectedCard={(card) => {
+            setSelectedCard(card);
+          }}
+        />
+        <CardCarousel
+          selectedCard={selectedCard}
+          setSelectedCard={(card) => {
+            setSelectedCard(card);
+          }}
+        />
+        {renderShowBarcode()}
+      </Collapsible>
     </View>
   );
 };
