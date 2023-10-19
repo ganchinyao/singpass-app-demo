@@ -18,6 +18,7 @@ import { selectReadItemIds, setDeletedItemIds, setReadItemsId } from './src/stor
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { QRConfirmationPage } from './src/pages/QRConfirmation';
 import Toast from 'react-native-toast-message';
+import { PhoneNumberVerificationPage } from './src/pages/PhoneNumberVerification';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -38,6 +39,7 @@ const ScanStackScreen = () => {
     <ScanStack.Navigator screenOptions={{ headerShown: false }}>
       <ScanStack.Screen name={`${ROUTES.SCAN}_STACK`} component={ScanPage} />
       <ScanStack.Screen name={ROUTES.QR_CONFIRMATION} component={QRConfirmationPage} />
+      <ScanStack.Screen name={ROUTES.PHONE_NUMBER_VERIFICATION} component={PhoneNumberVerificationPage} />
     </ScanStack.Navigator>
   );
 };

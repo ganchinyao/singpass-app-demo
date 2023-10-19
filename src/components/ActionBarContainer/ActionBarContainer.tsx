@@ -10,12 +10,14 @@ export type ActionBarContainerProps = {
   title?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  hideBorder?: boolean;
   onLeftIconPress?: () => void;
   onRightIconPress?: () => void;
 };
 export const ActionBarContainer = ({
   leftIcon,
   rightIcon,
+  hideBorder,
   title,
   onLeftIconPress,
   onRightIconPress,
@@ -24,13 +26,17 @@ export const ActionBarContainer = ({
   const navigation = useNavigation();
   const renderActionBar = () => {
     return (
-      <View style={styles.actionBar}>
+      <View style={[styles.actionBar, !hideBorder && styles.border]}>
         {leftIcon ? (
           <TouchableOpacity onPress={onLeftIconPress}>{leftIcon}</TouchableOpacity>
         ) : (
           <TouchableOpacity
             onPress={() => {
-              navigation.goBack();
+              if (onLeftIconPress) {
+                onLeftIconPress();
+              } else {
+                navigation.goBack();
+              }
             }}
           >
             <Ionicons name="arrow-back" size={24} color={Colors.black} />

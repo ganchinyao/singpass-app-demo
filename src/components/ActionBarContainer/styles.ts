@@ -15,9 +15,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: 56,
     paddingHorizontal: 12,
+    backgroundColor: Colors.white,
+  },
+  border: {
     borderBottomWidth: 0.5,
     borderBottomColor: Colors.border,
-    backgroundColor: Colors.white,
   },
   title: {
     fontSize: 18,
