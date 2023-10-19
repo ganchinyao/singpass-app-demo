@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MyProfile } from '../../feature/home/MyProfile';
+import { ShortCuts } from '../../feature/home/Shortcuts';
 
 const HomePage = () => {
   const navigation = useNavigation();
@@ -45,13 +46,22 @@ const HomePage = () => {
     );
   };
 
+  const renderLastUsedShortcuts = () => {
+    return (
+      <View style={styles.shortcutsContainer}>
+        <ShortCuts />
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView style={styles.scrollViewContainer}>
         {renderSettings()}
         {renderGreetings()}
         {renderMyCards()}
         {renderMyProfile()}
+        {renderLastUsedShortcuts()}
       </ScrollView>
     </SafeAreaView>
   );

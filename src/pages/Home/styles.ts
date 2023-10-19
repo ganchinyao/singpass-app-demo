@@ -24,9 +24,12 @@ export const styles = StyleSheet.create({
     fontSize: Fonts.xxlarge,
   },
   contentMargin: {
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
   },
   myProfileContainer: {
+    marginTop: 24,
+  },
+  shortcutsContainer: {
     marginTop: 24,
   },
 });
