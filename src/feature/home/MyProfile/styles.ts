@@ -27,4 +27,7 @@ export const styles = StyleSheet.create({
   myProfileIconContainer: {
     marginHorizontal: 16,
   },
+  myProfileGridContentContainer: {
+    backgroundColor: Colors.white,
+  },
 });
