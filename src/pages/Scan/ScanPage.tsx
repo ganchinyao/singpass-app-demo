@@ -1,11 +1,11 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, Text, View } from 'react-native';
 import { styles } from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../constants';
+import { QR_TYPES, ROUTES } from '../../constants';
 
 const TARGET_SQUARE_SIZE = 240;
 const { width } = Dimensions.get('window');
@@ -41,8 +41,16 @@ const ScanPage = () => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    if (data !== QR_TYPES.NORMAL && data !== QR_TYPES.VERIFY_SMS) {
+      Alert.alert(
+        'Unsupported QR Code',
+        'This is a demo app and is not meant to support real QR code. Please use the 2 test QR codes provided.',
+        [{ text: 'OK', onPress: () => setScanned(false) }]
+      );
+      return;
+    }
     navigation.navigate(ROUTES.QR_CONFIRMATION, { qrType: data });
-    setScanned(false);
+    setScanned(false) 
   };
 
   if (hasPermission === null) {

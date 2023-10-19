@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, ScrollView } from 'react-native';
 import { styles } from './styles';
 import { formatUnixTimestampToFullTime } from '../../utils/datetime';
 import { FontAwesome } from '@expo/vector-icons';
@@ -58,8 +58,10 @@ const InboxDetailsPage = ({ route }) => {
       rightIcon={<FontAwesome name="trash-o" size={24} color={Colors.black} />}
       onRightIconPress={showDeleteConfirmation}
     >
-      {renderMessageDate()}
-      {renderMessageBody()}
+      <ScrollView>
+        {renderMessageDate()}
+        {renderMessageBody()}
+      </ScrollView>
     </ActionBarContainer>
   );
 };
