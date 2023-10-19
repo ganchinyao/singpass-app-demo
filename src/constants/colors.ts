@@ -11,6 +11,7 @@ export default {
   },
   background: '#f4f4f4',
   red: {
+    '300': '#EB3D43',
     '500': '#C80E14',
     '700': '#D32F2F',
   },

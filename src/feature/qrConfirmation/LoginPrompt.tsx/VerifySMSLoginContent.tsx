@@ -5,7 +5,6 @@ import { ActionButton } from '../../../components/ActionButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { formatUnixTimestampToFullTime } from '../../../utils/datetime';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 import { Colors, ROUTES } from '../../../constants';
 
 export const VerifySMSLoginContent = () => {

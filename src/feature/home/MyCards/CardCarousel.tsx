@@ -74,7 +74,7 @@ export const CardCarousel = ({ selectedCard, setSelectedCard }: CardCarouselProp
         snapToInterval={CARD_WIDTH}
         decelerationRate="fast"
         bounces={false}
-        contentContainerStyle={{ alignItems: 'center' }}
+        contentContainerStyle={{ alignItems: 'center', paddingLeft: 20 }}
         renderItem={({ index, item }) => <Card key={item} index={index} scrollX={scrollX} />}
         keyExtractor={(item) => item}
         onScroll={scrollHandler}

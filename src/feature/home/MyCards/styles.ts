@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     fontSize: Fonts.medium,
   },
   showBarcodeContainer: {
-    marginTop: 10,
+    marginTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

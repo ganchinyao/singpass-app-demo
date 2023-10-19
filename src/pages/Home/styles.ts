@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 import { Colors, Fonts } from '../../constants';
 
 export const styles = StyleSheet.create({
-  safeAreaViewContainer: {
-    backgroundColor: Colors.background,
+  scrollViewContainer: {
     flex: 1,
   },
   container: {
+    flex: 1,
     marginTop: 6,
   },
   settingsContainer: {
@@ -22,5 +22,11 @@ export const styles = StyleSheet.create({
   grettingName: {
     fontWeight: '500',
     fontSize: Fonts.xxlarge,
+  },
+  contentMargin: {
+    marginHorizontal: 20,
+  },
+  myProfileContainer: {
+    marginTop: 24,
   },
 });

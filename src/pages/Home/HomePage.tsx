@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles';
 import { db } from '../../../db/db';
 import { AntDesign } from '@expo/vector-icons';
@@ -6,6 +6,7 @@ import { MyCards } from '../../feature/home/MyCards';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MyProfile } from '../../feature/home/MyProfile';
 
 const HomePage = () => {
   const navigation = useNavigation();
@@ -36,11 +37,22 @@ const HomePage = () => {
     return <MyCards />;
   };
 
+  const renderMyProfile = () => {
+    return (
+      <View style={[styles.contentMargin, styles.myProfileContainer]}>
+        <MyProfile />
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={styles.container}>
-      {renderSettings()}
-      {renderGreetings()}
-      {renderMyCards()}
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        {renderSettings()}
+        {renderGreetings()}
+        {renderMyCards()}
+        {renderMyProfile()}
+      </ScrollView>
     </SafeAreaView>
   );
 };
