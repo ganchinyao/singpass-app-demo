@@ -2,14 +2,19 @@ import { StyleSheet } from 'react-native';
 import { Colors, Fonts } from '../../constants';
 
 export const styles = StyleSheet.create({
-  container: {
+  safeAreaViewContainer: {
     backgroundColor: Colors.background,
     flex: 1,
-    marginLeft: 20,
+  },
+  container: {
+    marginTop: 6,
   },
   settingsContainer: {
     alignItems: 'flex-end',
     marginRight: 12,
+  },
+  greetingsContainer: {
+    marginLeft: 24,
   },
   greetingTitle: {
     fontSize: Fonts.large,

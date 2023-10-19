@@ -1,5 +1,6 @@
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from './styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ScanPage = () => {
   return (

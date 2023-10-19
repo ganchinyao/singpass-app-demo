@@ -2,13 +2,15 @@ import { StyleSheet } from 'react-native';
 import { Colors, Fonts } from '../../constants';
 
 export const styles = StyleSheet.create({
-  container: {
+  safeAreaViewContainer: {
     backgroundColor: Colors.background,
     flex: 1,
   },
   headerContainer: {
     paddingHorizontal: 28,
-    marginTop: 8,
+    paddingBottom: 24,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.border,
   },
   ellipsesContainer: {
     alignItems: 'flex-end',
@@ -26,9 +28,6 @@ export const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    marginTop: 24,
-    borderTopWidth: 0.5,
-    borderTopColor: Colors.border,
   },
   backToTopButton: {
     position: 'absolute',

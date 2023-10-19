@@ -3,6 +3,7 @@ export const ROUTES = {
   SCAN: 'SCAN',
   INBOX: 'INBOX',
   INBOX_DETAILS: 'INBOX_DETAILS',
+  SETTINGS: 'SETTINGS',
 } as const;
 
 export const INBOX_ITEMS_PER_PAGE = 10;

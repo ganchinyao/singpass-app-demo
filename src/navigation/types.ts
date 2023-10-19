@@ -6,4 +6,5 @@ export type RootStackParamList = {
   [ROUTES.SCAN]: undefined;
   [ROUTES.INBOX]: undefined;
   [ROUTES.INBOX_DETAILS]: { item: InboxMessages };
+  [ROUTES.SETTINGS]: undefined;
 };

@@ -6,25 +6,56 @@ import { InboxPage } from './src/pages/Inbox';
 import { Colors, ROUTES } from './src/constants';
 import { AntDesign, Ionicons, Foundation } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import { store, useAppSelector } from './src/store';
-import { selectNumUnreadMsgs } from './src/store/slices/inboxSlice';
+import { store, useAppDispatch, useAppSelector } from './src/store';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { InboxDetailsPage } from './src/pages/InboxDetails';
+import { SettingsPage } from './src/pages/Settings';
+import { STORAGE_KEYS, getData, storeData } from './db/asyncStorage';
+import { db } from './db/db';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { selectReadItemIds, setDeletedItemIds, setReadItemsId } from './src/store/slices/inboxSlice';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
+const HomeStack = createNativeStackNavigator();
 const InboxStack = createNativeStackNavigator();
+
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+      <HomeStack.Screen name={`${ROUTES.HOME}_STACK`} component={HomePage} />
+      <HomeStack.Screen name={ROUTES.SETTINGS} component={SettingsPage} />
+    </HomeStack.Navigator>
+  );
+};
 
 const InboxStackScreen = () => {
   return (
     <InboxStack.Navigator screenOptions={{ headerShown: false }}>
-      <InboxStack.Screen name={ROUTES.INBOX} component={InboxPage} />
+      <InboxStack.Screen name={`${ROUTES.INBOX}_STACK`} component={InboxPage} />
       <InboxStack.Screen name={ROUTES.INBOX_DETAILS} component={InboxDetailsPage} />
     </InboxStack.Navigator>
   );
 };
 
 const Navigation = () => {
-  const numUnreadMsgs = useAppSelector(selectNumUnreadMsgs);
+  const readItemIds = useAppSelector(selectReadItemIds);
+  const dispatch = useAppDispatch();
+  const numUnreadMsgs = db.inboxMessages.length - readItemIds.length;
+
+  useEffect(() => {
+    // Initialize db read values
+    async function init() {
+      const readItemIds = (await getData(STORAGE_KEYS.INBOX_READ_MESSAGES_IDS, true)) as string[];
+      const deletedItemIds = (await getData(STORAGE_KEYS.INBOX_DELETE_MESSAGES_IDS, true)) as string[];
+      dispatch(setReadItemsId(readItemIds));
+      dispatch(setDeletedItemIds(deletedItemIds));
+    }
+
+    init();
+  }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -33,6 +64,7 @@ const Navigation = () => {
             headerShown: false,
             tabBarActiveTintColor: Colors.primaryRed,
             tabBarInactiveTintColor: Colors.black,
+            tabBarStyle: { paddingVertical: 2 },
             tabBarIcon: ({ color, size }) => {
               switch (route.name) {
                 case ROUTES.HOME:
@@ -46,7 +78,7 @@ const Navigation = () => {
           };
         }}
       >
-        <Tab.Screen name={ROUTES.HOME} component={HomePage} />
+        <Tab.Screen name={ROUTES.HOME} component={HomeStackScreen} />
         <Tab.Screen name={ROUTES.SCAN} component={ScanPage} />
         <Tab.Screen
           name={ROUTES.INBOX}
@@ -57,10 +89,42 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
+
 export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    // Initialize some db values
+    async function init() {
+      const readItemIds = (await getData(STORAGE_KEYS.INBOX_READ_MESSAGES_IDS, true)) as string[];
+      const deletedItemIds = (await getData(STORAGE_KEYS.INBOX_DELETE_MESSAGES_IDS, true)) as string[];
+      // If it's the first time, initialize the array
+      const defaultReadItemIds = db.inboxMessages.filter((item) => item.isRead).map((item) => item.id);
+      if (!readItemIds) {
+        await storeData(STORAGE_KEYS.INBOX_READ_MESSAGES_IDS, JSON.stringify(defaultReadItemIds));
+      }
+      if (!deletedItemIds) {
+        await storeData(STORAGE_KEYS.INBOX_DELETE_MESSAGES_IDS, JSON.stringify([]));
+      }
+      setAppIsReady(true);
+    }
+
+    init();
+  }, []);
+
+  if (!appIsReady) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <ActivityIndicator style={{ marginTop: 4 }} size="large" color={Colors.primaryRed} />
+      </View>
+    );
+  }
+
   return (
-    <Provider store={store}>
-      <Navigation />
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
+    </SafeAreaProvider>
   );
 }

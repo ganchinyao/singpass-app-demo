@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     marginTop: 24,
   },
   cardScrollViewContainer: {
+    paddingLeft: 24,
     marginTop: 16,
     height: 50,
   },
@@ -17,6 +18,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginRight: 32,
+    marginLeft: 24,
   },
   myCardsHeaderText: {
     ...Fonts.boldText,

@@ -1,17 +1,20 @@
 import React from 'react';
 import { View, Text, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 import { formatUnixTimestampToFullTime } from '../../utils/datetime';
-import { ActionBar } from '../../components/ActionBar';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../../constants';
-import { useNavigation } from '@react-navigation/native';
 import { InboxMessages } from '../../../db/db';
+import { ActionBarContainer } from '../../components/ActionBarContainer';
+import { deleteInboxItem } from '../../api/inbox';
+import { useAppDispatch } from '../../store';
+import { addDeletedItemId } from '../../store/slices/inboxSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const InboxDetailsPage = ({ route }) => {
   const { item }: { item: InboxMessages } = route.params;
   const { date, body, sender } = item;
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
 
   const renderMessageDate = () => {
@@ -37,7 +40,11 @@ const InboxDetailsPage = ({ route }) => {
         },
         {
           text: 'Delete',
-          onPress: () => {},
+          onPress: () => {
+            deleteInboxItem(item.id);
+            dispatch(addDeletedItemId(item.id));
+            navigation.goBack();
+          },
           style: 'destructive',
         },
       ],
@@ -46,22 +53,14 @@ const InboxDetailsPage = ({ route }) => {
   };
 
   return (
-    <>
-      <SafeAreaView edges={['top']} style={styles.safeAreaViewTop} />
-      <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.container}>
-        <ActionBar
-          leftIcon={<Ionicons name="arrow-back" size={24} color={Colors.black} />}
-          onLeftIconPress={() => {
-            navigation.goBack();
-          }}
-          title={sender}
-          rightIcon={<FontAwesome name="trash-o" size={24} color={Colors.black} />}
-          onRightIconPress={showDeleteConfirmation}
-        />
-        {renderMessageDate()}
-        {renderMessageBody()}
-      </SafeAreaView>
-    </>
+    <ActionBarContainer
+      title={sender}
+      rightIcon={<FontAwesome name="trash-o" size={24} color={Colors.black} />}
+      onRightIconPress={showDeleteConfirmation}
+    >
+      {renderMessageDate()}
+      {renderMessageBody()}
+    </ActionBarContainer>
   );
 };
 
