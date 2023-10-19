@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, ReturnKeyTypeOptions } from 'react-native';
+import { View, TextInput, StyleSheet, ReturnKeyTypeOptions, Text, Touchable, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { Colors } from '../../constants';
@@ -26,6 +26,13 @@ export const SearchBar = ({ onSearch, placeholder, returnKeyType = 'search' }: S
           onSearch(searchQuery);
         }}
       />
+      <TouchableOpacity
+        onPress={() => {
+          onSearch(searchQuery);
+        }}
+      >
+        <Text style={styles.goButton}>Go</Text>
+      </TouchableOpacity>
     </View>
   );
 };

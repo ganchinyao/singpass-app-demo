@@ -20,14 +20,26 @@ const InboxPage = () => {
   const flatListRef = useRef(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const deletedItemIds = useAppSelector(selectDeletedItemIds);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [hasMoreData, setHasMoreData] = useState(true);
 
   const mockFetchData = useCallback(
-    async (isInitialFetch?: boolean) => {
+    async (isInitialFetch?: boolean, searchQuery?: string) => {
       if (loading) {
         return;
       }
       !refreshing && setLoading(true);
-      const newData = await fetchInboxItems(INBOX_ITEMS_PER_PAGE, isInitialFetch ? 0 : offset, deletedItemIds);
+      const newData = await fetchInboxItems(
+        INBOX_ITEMS_PER_PAGE,
+        isInitialFetch ? 0 : offset,
+        deletedItemIds,
+        searchQuery
+      );
+      if (newData.length < INBOX_ITEMS_PER_PAGE) {
+        setHasMoreData(false);
+      } else {
+        setHasMoreData(true);
+      }
       if (isInitialFetch) {
         setOffset(0);
         setData(newData);
@@ -41,12 +53,15 @@ const InboxPage = () => {
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await mockFetchData(true);
+    await mockFetchData(true, searchQuery);
     setRefreshing(false);
-  }, []);
+  }, [searchQuery]);
 
   const fetchMoreData = () => {
-    const listEnded = data.length >= db.inboxMessages.length - deletedItemIds.length;
+    const listEnded =
+      !hasMoreData ||
+      data.length >= db.inboxMessages.length - deletedItemIds.length ||
+      offset > db.inboxMessages.length;
     if (loading || listEnded) {
       return;
     }
@@ -69,8 +84,8 @@ const InboxPage = () => {
   };
 
   useEffect(() => {
-    mockFetchData(offset === 0);
-  }, [offset]);
+    mockFetchData(offset === 0, searchQuery);
+  }, [offset, searchQuery]);
 
   const renderHeader = () => {
     return (
@@ -83,7 +98,16 @@ const InboxPage = () => {
           These are copies of government messages that were sent to your mobile number.
         </Text>
         <View style={styles.searchBarContainer}>
-          <SearchBar onSearch={() => {}} />
+          <SearchBar
+            onSearch={(newQuery) => {
+              setSearchQuery((prev) => {
+                if (prev !== newQuery) {
+                  setOffset(0);
+                }
+                return newQuery;
+              });
+            }}
+          />
         </View>
       </View>
     );
@@ -112,8 +136,11 @@ const InboxPage = () => {
           onScroll={handleScroll}
           scrollEventThrottle={16}
           ListFooterComponent={
-            loading ? <ActivityIndicator style={{ marginTop: 4 }} size="large" color={colors.primaryRed} /> : null
+            loading && !refreshing ? (
+              <ActivityIndicator style={{ marginTop: 4 }} size="large" color={colors.primaryRed} />
+            ) : null
           }
+          ListEmptyComponent={<Text style={styles.emptyText}>Oops, nothing here</Text>}
         />
         {showBackToTop && (
           <TouchableOpacity style={styles.backToTopButton} onPress={handleBackToTop} activeOpacity={0.9}>

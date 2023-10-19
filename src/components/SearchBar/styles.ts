@@ -16,4 +16,7 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
   },
+  goButton: {
+    color: Colors.text,
+  },
 });

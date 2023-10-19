@@ -45,4 +45,9 @@ export const styles = StyleSheet.create({
     shadowRadius: 1,
     elevation: 1,
   },
+  emptyText: {
+    textAlign: 'center',
+    color: Colors.text,
+    marginTop: 64,
+  },
 });

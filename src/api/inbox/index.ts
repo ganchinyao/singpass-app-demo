@@ -2,11 +2,23 @@ import { STORAGE_KEYS, getData, storeData } from '../../../db/asyncStorage';
 import { db } from '../../../db/db';
 import { delay } from '../../utils';
 
-export const fetchInboxItems = async (limit: number, offset: number, deletedItemIds: string[] = []) => {
+export const fetchInboxItems = async (
+  limit: number,
+  offset: number,
+  deletedItemIds: string[] = [],
+  searchQuery?: string
+) => {
   // Simulate a network delay
   await delay(500);
 
-  return db.inboxMessages.filter((item) => !deletedItemIds.includes(item.id)).slice(offset, offset + limit);
+  if (!searchQuery) {
+    return db.inboxMessages.filter((item) => !deletedItemIds.includes(item.id)).slice(offset, offset + limit);
+  }
+
+  return db.inboxMessages
+    .filter((item) => !deletedItemIds.includes(item.id))
+    .filter((item) => item.body.toLowerCase().includes(searchQuery.toLowerCase()))
+    .slice(offset, offset + limit);
 };
 
 export const setInboxItemAsRead = async (id: string) => {
