@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    marginTop: 36,
+    paddingTop: 36,
     flex: 1,
   }
 });

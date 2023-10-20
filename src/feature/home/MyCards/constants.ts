@@ -3,7 +3,7 @@ import { getScreenWidth } from '../../../utils';
 export enum CARDS {
   NRIC = 'NRIC',
   DRIVING_LICENSE = 'Driving Licence',
-  CHAS = 'CHAS card',
+  GOV_ID = 'GovID',
   WHAT_IS_THIS = 'What is this?',
 }
 

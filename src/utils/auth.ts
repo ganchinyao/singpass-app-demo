@@ -1,4 +1,5 @@
 import * as LocalAuthentication from 'expo-local-authentication';
+import { STORAGE_KEYS, getData, storeData } from '../../db/asyncStorage';
 
 async function checkHardwareSupport() {
   const compatible = await LocalAuthentication.hasHardwareAsync();
@@ -38,3 +39,20 @@ export async function authenticate() {
   }
   return false;
 }
+
+export const setHasVerifiedPhoneNumber = async (val: boolean) => {
+  try {
+    await storeData(STORAGE_KEYS.SCAN_VERIFIED_PHONE_NUMBER, JSON.stringify({ isVerified: val }));
+  } catch (err) {
+    console.error('Error setting hasVerifiedPhoneNumber:', err);
+  }
+};
+
+export const hasVerifiedPhoneNumber = async () => {
+  try {
+    const { isVerified } = (await getData(STORAGE_KEYS.SCAN_VERIFIED_PHONE_NUMBER, true)) as { isVerified: boolean };
+    return isVerified;
+  } catch (err) {
+    return false;
+  }
+};

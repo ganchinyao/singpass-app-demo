@@ -1,5 +1,3 @@
-// navigation.d.ts
-
 import { RootStackParamList } from './types';
 
 declare global {

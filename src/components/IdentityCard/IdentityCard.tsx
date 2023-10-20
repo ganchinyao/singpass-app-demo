@@ -13,7 +13,7 @@ export const IdentityCard = ({ text, customStyle }: IdentityCardProps) => {
     backgroundColor = '#f1d3d7';
   } else if (text === CARDS.DRIVING_LICENSE) {
     backgroundColor = '#72a39f';
-  } else if (text === CARDS.CHAS) {
+  } else if (text === CARDS.GOV_ID) {
     backgroundColor = '#ed6837';
   } else {
     backgroundColor = '#222222';

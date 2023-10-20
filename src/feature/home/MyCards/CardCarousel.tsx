@@ -9,7 +9,7 @@ import Animated, {
 import { CARDS, CARD_WIDTH, SPACER_SIZE } from './constants';
 import { styles } from './styles';
 
-const data = [CARDS.NRIC, CARDS.DRIVING_LICENSE, CARDS.CHAS, CARDS.WHAT_IS_THIS];
+const data = [CARDS.NRIC, CARDS.DRIVING_LICENSE, CARDS.GOV_ID, CARDS.WHAT_IS_THIS];
 
 const Card = ({ index, scrollX }) => {
   const inputRange = [(index - 1) * CARD_WIDTH, index * CARD_WIDTH, (index + 1) * CARD_WIDTH];
@@ -25,7 +25,7 @@ const Card = ({ index, scrollX }) => {
     backgroundColor = '#f1d3d7';
   } else if (text === CARDS.DRIVING_LICENSE) {
     backgroundColor = '#72a39f';
-  } else if (text === CARDS.CHAS) {
+  } else if (text === CARDS.GOV_ID) {
     backgroundColor = '#ed6837';
   } else {
     backgroundColor = '#222222';

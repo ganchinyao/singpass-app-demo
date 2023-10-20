@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Colors, QR_TYPES, ROUTES } from '../../constants';
 import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 import { delay } from '../../utils';
+import { setHasVerifiedPhoneNumber } from '../../utils/auth';
 
 const PhoneVerificationScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,13 +47,15 @@ const PhoneVerificationScreen = () => {
       // If it's the last input and has value, handle verification here
       if (index === 5 && value) {
         setIsLoading(true);
-        delay(500).then(() => {
-          setIsLoading(false);
-          setIsVerified(true);
-          setTimeout(() => {
-            setIsVerified(false);
-            navigation.navigate(ROUTES.QR_CONFIRMATION, { qrType: QR_TYPES.NORMAL });
-          }, 2500);
+        setHasVerifiedPhoneNumber(true).then(() => {
+          delay(500).then(() => {
+            setIsLoading(false);
+            setIsVerified(true);
+            setTimeout(() => {
+              setIsVerified(false);
+              navigation.navigate(ROUTES.QR_CONFIRMATION, { qrType: QR_TYPES.NORMAL });
+            }, 2000);
+          });
         });
       }
 

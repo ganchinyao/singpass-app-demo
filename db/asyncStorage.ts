@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const STORAGE_KEYS = {
   INBOX_READ_MESSAGES_IDS: 'INBOX_READ_MESSAGES_IDS',
   INBOX_DELETE_MESSAGES_IDS: 'INBOX_DELETE_MESSAGES_IDS',
+  SCAN_VERIFIED_PHONE_NUMBER: 'SCAN_VERIFIED_PHONE_NUMBER',
 };
 
 export const storeData = async (key: string, value: string) => {
