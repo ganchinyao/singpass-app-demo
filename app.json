@@ -30,7 +30,8 @@
       "permissions": [
         "android.permission.USE_BIOMETRIC",
         "android.permission.USE_FINGERPRINT"
-      ]
+      ],
+      "package": "com.chinyao.singpassdemo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
